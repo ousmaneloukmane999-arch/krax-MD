@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>KraX-MD Pairing</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #080808;
+      color: white;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 380px;
+      background: #111;
+      border: 1px solid #292929;
+      border-radius: 20px;
+      padding: 30px 22px;
+      text-align: center;
+      box-shadow: 0 0 30px #000;
+    }
+
+    .logo {
+      font-size: 45px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 27px;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #999;
+      font-size: 13px;
+      margin-bottom: 30px;
+    }
+
+    .label {
+      text-align: left;
+      color: #aaa;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      background: #080808;
+      border: 1px solid #333;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      margin-bottom: 15px;
+    }
+
+    input:focus {
+      border-color: #25D366;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background: #25D366;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .status {
+      margin-top: 20px;
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .footer {
+      margin-top: 30px;
+      color: #555;
+      font-size: 12px;
+    }
+
+    .owner {
+      color: #25D366;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <div class="logo">⚡</div>
+
+    <h1>𝐊𝐑𝐀𝐗-𝐌𝐃</h1>
+
+    <p class="subtitle">
+      WhatsApp Pairing System
+    </p>
+
+    <p class="label">
+      Numéro WhatsApp du propriétaire
+    </p>
+
+    <input
+      type="tel"
+      id="number"
+      placeholder="Ex: 227XXXXXXXX"
+    >
+
+    <button onclick="getPairing()">
+      GET PAIRING CODE
+    </button>
+
+    <div class="status" id="status">
+      En attente...
+    </div>
+
+    <div class="footer">
+      Created by <span class="owner">𝖑𝖊 𝖌𝖆𝖔𝖙</span>
+    </div>
+
+  </div>
+
+  <script>
+    function getPairing() {
+      document.getElementById("status").innerText =
+        "Le système Pairing sera connecté à l'étape suivante.";
+    }
+  </script>
+
+</body>
+</html>
