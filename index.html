@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KraX-MD Pairing</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #050505;
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 450px;
+  background: #111;
+  border: 1px solid #292929;
+  border-radius: 25px;
+  padding: 35px 25px;
+  text-align: center;
+}
+
+.logo {
+  font-size: 65px;
+}
+
+h1 {
+  font-size: 38px;
+  margin: 15px 0;
+}
+
+.subtitle {
+  color: #999;
+  font-size: 18px;
+  margin-bottom: 35px;
+}
+
+label {
+  display: block;
+  text-align: left;
+  color: #aaa;
+  margin: 18px 0 10px;
+}
+
+input {
+  width: 100%;
+  padding: 18px;
+  border-radius: 15px;
+  border: 1px solid #444;
+  background: #eaf0ff;
+  color: #111;
+  font-size: 18px;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 20px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 15px;
+  background: #20d568;
+  color: #000;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+}
+
+#result {
+  margin-top: 25px;
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+
+.code {
+  font-size: 30px;
+  color: #20d568;
+  font-weight: bold;
+  letter-spacing: 4px;
+  margin: 15px 0;
+}
+
+.footer {
+  color: #777;
+  margin-top: 35px;
+}
+
+.footer span {
+  color: #20d568;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <div class="logo">⚡</div>
+
+  <h1>KRAX-MD</h1>
+
+  <div class="subtitle">
+    WhatsApp Multi-Session
+  </div>
+
+  <label>Numéro WhatsApp à connecter</label>
+
+  <input
+    type="tel"
+    id="number"
+    placeholder="227XXXXXXXX"
+  >
+
+  <label>Clé administrateur</label>
+
+  <input
+    type="password"
+    id="adminKey"
+    placeholder="Clé secrète"
+  >
+
+  <button id="btn" onclick="getPairing()">
+    GET PAIRING CODE
+  </button>
+
+  <div id="result"></div>
+
+  <div class="footer">
+    Created by <span>le goat</span>
+  </div>
+
+</div>
+
+<script>
+async function getPairing() {
+  const number = document
+    .getElementById("number")
+    .value
+    .replace(/\D/g, "");
+
+  const adminKey = document
+    .getElementById("adminKey")
+    .value;
+
+  const button = document.getElementById("btn");
+  const result = document.getElementById("result");
+
+  if (!number) {
+    result.innerHTML = "❌ Entre un numéro WhatsApp.";
+    return;
+  }
+
+  if (!adminKey) {
+    result.innerHTML = "❌ Entre la clé administrateur.";
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Connexion en cours...";
+  result.textContent = "⏳ Génération du code...";
+
+  try {
+    const response = await fetch("/api/pair", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-admin-key": adminKey
+      },
+      body: JSON.stringify({
+        number: number
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success && data.pairingCode) {
+      result.innerHTML =
+        "✅ Voici ton code de pairing :<div class='code'>" +
+        data.pairingCode +
+        "</div>Ouvre WhatsApp → Appareils connectés → Connecter un appareil → Connecter avec un numéro.";
+    } else {
+      result.textContent = "❌ " + data.message;
+    }
+
+  } catch (error) {
+    result.textContent = "❌ Erreur de connexion au serveur.";
+  }
+
+  button.disabled = false;
+  button.textContent = "GET PAIRING CODE";
+}
+</script>
+
+</body>
+</html>
